@@ -1,13 +1,19 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import App from "./App";
 import "tailwindcss/tailwind.css";
+import { Provider } from 'react-redux';
+import Store from "./Redux/Store";
 
-console.log("hi");
+// Get the root element
+const rootElement = document.getElementById("root");
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
+// Create a root and render the app
+const root = createRoot(rootElement);
+root.render(
+  <div>
+    <Provider store={Store}>
+      <App />
+    </Provider>
+  </div>
 );
