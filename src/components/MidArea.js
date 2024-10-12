@@ -13,9 +13,17 @@ import Movexy from "./Sidebareach/Movexy";
 import multipleaction from "../Redux/ReduxmidArea/Reduxmultipleaction/multipleaction";
 import { updateAction } from '../Redux/ReduxmidArea/Actionorder'
 import {updateactionlistmulitple} from '../Redux/ReduxmidArea/Reduxmultipleaction/Actionformultiple'
+import { updateCanCreateMultipleSpirit } from "../Redux/ReduxmidArea/Previewarea/maintain";
+
+
+
 export default function MidArea() {
   const [tracksingleornot, settracksingleornot] = useState(0)
+  const dispatch = useDispatch();
+  // const 
+  // const handlespirit() {
 
+  // }
   return (
     <div>
       <div>
@@ -24,15 +32,20 @@ export default function MidArea() {
             MidArea
           </div>
           <div>
-            <button className=" border-2 px-2 py-1 rounded-2xl bg-red-300">
-              Hero Feature
-            </button>
+            
           </div>
         </div>
         <div>
           <div className="flex gap-4 mt-5 px-4 ">
-            <div><button className="bg-green-300 border-1 p-1 border-black rounded-2xl px-3" onClick={() => settracksingleornot(0)}>Create Single List</button> </div>
-            <div> <button className="bg-green-300 border rounded-2xl p-1 px-3" onClick={() => settracksingleornot(1)}>Create Mulitple List</button></div>
+            <div><button className="bg-green-300 border-1 p-1 border-black rounded-2xl px-3" onClick={() => {
+              settracksingleornot(0);
+              dispatch(updateCanCreateMultipleSpirit({id:0}))
+            }}>Create Single List</button> </div>
+            <div> <button className="bg-green-300 border rounded-2xl p-1 px-3" onClick={() => {
+              settracksingleornot(1)
+              dispatch(updateCanCreateMultipleSpirit({id:1}))
+
+            }}>Create Mulitple List</button></div>
           </div>
         </div>
         <div className=" ml-3 mt-9">
