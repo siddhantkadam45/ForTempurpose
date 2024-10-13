@@ -5,6 +5,9 @@ import multipleActionReducer from './ReduxmidArea/Reduxmultipleaction/multipleac
 import MulitpleActionorderlistReducer from './ReduxmidArea/Reduxmultipleaction/Actionformultiple'
 import characterReducer from './ReduxmidArea/Previewarea/Charater'
 import CheckmultipleReducer from './ReduxmidArea/Previewarea/maintain'
+import singleConnectivityReducer from './ReduxmidArea/Previewarea/Singleactiosconnectivity'
+import GlobalRunCheckerReducer from './ReduxmidArea/Previewarea/globalruntracker'
+import showxoryreducer from './ReduxmidArea/Previewarea/toshowxory'
 const Store = configureStore({
     reducer: {
         Singleaction: actionReducer,
@@ -12,7 +15,10 @@ const Store = configureStore({
         Mulitpleactionlist: multipleActionReducer,
         Mulitpleactionorderlist: MulitpleActionorderlistReducer,
         Characteractionslist: characterReducer,
-        checkmultiplecancreate: CheckmultipleReducer
+        checkmultiplecancreate: CheckmultipleReducer,
+        singleconnectivity: singleConnectivityReducer,
+        runtracker : GlobalRunCheckerReducer,
+        toshowxory : showxoryreducer 
     }
 })
 

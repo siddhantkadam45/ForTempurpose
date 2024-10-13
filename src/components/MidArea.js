@@ -14,16 +14,15 @@ import multipleaction from "../Redux/ReduxmidArea/Reduxmultipleaction/multipleac
 import { updateAction } from '../Redux/ReduxmidArea/Actionorder'
 import {updateactionlistmulitple} from '../Redux/ReduxmidArea/Reduxmultipleaction/Actionformultiple'
 import { updateCanCreateMultipleSpirit } from "../Redux/ReduxmidArea/Previewarea/maintain";
-
+import { updateRunOnOrOff } from "../Redux/ReduxmidArea/Previewarea/globalruntracker";
 
 
 export default function MidArea() {
+  const tt = useSelector((state) => state.toshowxory.checkxory)
+  console.log('fot te ', tt)
   const [tracksingleornot, settracksingleornot] = useState(0)
   const dispatch = useDispatch();
-  // const 
-  // const handlespirit() {
-
-  // }
+  
   return (
     <div>
       <div>
@@ -49,7 +48,7 @@ export default function MidArea() {
           </div>
         </div>
         <div className=" ml-3 mt-9">
-          {!tracksingleornot ? <div><Cardhold Createindividuallist={<SingleComponent />} /></div> : <div><Cardhold Createindividuallist={<Mulitplelist />} /></div>}
+          {!tracksingleornot && !tt ? <div><Cardhold Createindividuallist={<SingleComponent />} /></div> : <div><Cardhold Createindividuallist={<Mulitplelist />} /></div>}
         </div>
       </div>
 
@@ -61,6 +60,8 @@ export default function MidArea() {
 function SingleComponent() {
   const dispatch = useDispatch();
   const actions = useSelector(state => state.Singleaction.Singleactionlist);
+  const runtracker = useSelector((state) => state.runtracker.RunonorOff)
+  console.log('run tracker ', runtracker)
   console.log(actions)
   function handleChange(e) {
     const { id, value } = e.target;
@@ -110,7 +111,7 @@ function SingleComponent() {
       <div>
         <div className='flex flex-col  justify-center items-center  '>
           <div >
-            <button className=' border-slate-400 px-2 w-20 py-1 rounded-md flex items-center justify-center gap-1 bg-purple-400'>
+            <button className=' border-slate-400 px-2 w-20 py-1 rounded-md flex items-center justify-center gap-1 bg-purple-400' onClick={() => dispatch(updateRunOnOrOff({onoroff:1}))}>
               <IoMdArrowDroprightCircle />
               Run
             </button>
@@ -154,6 +155,8 @@ function SingleComponent() {
 function Mulitplelist() {
   const mulitpleactionlistsecond = useSelector(state => state.Mulitpleactionlist.Entriesofsecond);
   const mulitpleactionlistfirst = useSelector(state => state.Mulitpleactionlist.Entriesoffirst);
+  const runtracker = useSelector((state) => state.runtracker.RunonorOff)
+
   const dispatch = useDispatch();
   console.log(mulitpleactionlistsecond)
   function handleChange(e) {
@@ -233,7 +236,7 @@ function Mulitplelist() {
     <div className="flex flex-col gap-10">
       <div>
         <div className="flex justify-center items-center flex-col">
-          <button className=' border-slate-400 px-2 w-20 py-1 rounded-md flex items-center justify-center gap-1 bg-purple-400'>
+          <button className=' border-slate-400 px-2 w-20 py-1 rounded-md flex items-center justify-center gap-1 bg-purple-400' onClick={() => dispatch(updateRunOnOrOff({onoroff:1}))}>
             <IoMdArrowDroprightCircle />
             Run
           </button>

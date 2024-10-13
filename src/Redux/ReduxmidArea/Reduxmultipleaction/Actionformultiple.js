@@ -97,7 +97,19 @@ export const MulitpleActionorderlist = createSlice({
                     console.log('Updated Actionorderlist for second:', JSON.parse(JSON.stringify(state.ActionEntrieofsecond))); 
                 }
             }
-        }
+        },
+        // setSpiritOneActions : (state,action) => {
+        //     // console.log(action.payload)
+        //     const {Spirittwoaction} = action.payload;
+        //     state.ActionEntrieoffirst = Spirittwoaction;
+        //     console.log('setting Actionorderlist:', JSON.parse(JSON.stringify(state.ActionEntrieoffirst)));
+        // },
+        // setSpiritTwoActions : (state,action) =>{
+        //     const {SpiritoneAction} = action.payload;
+        //     state.ActionEntrieofsecond = SpiritoneAction;
+        //     console.log('setting Actionorderlist for second:', JSON.parse(JSON.stringify(state.ActionEntrieofsecond))); 
+
+        // }
     }
 });
 
