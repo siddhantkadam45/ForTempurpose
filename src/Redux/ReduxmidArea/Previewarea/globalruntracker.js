@@ -10,6 +10,7 @@ export const GlobalRunChecker = createSlice({
     reducers: {
         updateRunOnOrOff: (state, action) => {
             const { onoroff } = action.payload;
+            console.log(onoroff)
             state.RunonorOff = onoroff;
             console.log('Global run:', state.RunonorOff);
         }

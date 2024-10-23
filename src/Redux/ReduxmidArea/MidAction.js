@@ -10,7 +10,11 @@ export const actionSlice = createSlice({
     initialState,
     reducers: {
         updatesinglelist: (state, action) => {
-            state.Singleactionlist = action.payload.updatedActions;
+
+            state.Singleactionlist = []
+            state.Singleactionlist = [...action.payload.updatedActions];
+
+            console.log(state.Singleactionlist ,' single actoa back')
         }
     }
 });

@@ -8,6 +8,7 @@ import { updatesinglelist } from './Redux/ReduxmidArea/MidAction'
 import { updateAction, UpdateActionsfordrag } from "./Redux/ReduxmidArea/Actionorder";
 import { updatemulipleorderlist } from "./Redux/ReduxmidArea/Reduxmultipleaction/Actionformultiple";
 import { updatemultipleaction } from './Redux/ReduxmidArea/Reduxmultipleaction/multipleaction'
+import Tempprev from "./components/Tempprev";
 
 export default function App() {
   const actions = useSelector(state => state.Singleaction.Singleactionlist);
@@ -19,7 +20,9 @@ export default function App() {
   function Dragin_same_component(tempArray, result, updateActionList, updateOrderList, firstKey, firstActionKey, listIndex) {
     const sourceIndex = result.source.index;
     const destinationIndex = result.destination.index;
-
+    let t ;
+    if(sourceIndex < destinationIndex ) t = sourceIndex;
+    else t = destinationIndex;
     // Create a copy of the array and remove the dragged item
     let updatedActions = [...tempArray];
     const [movedElement] = updatedActions.splice(sourceIndex, 1);
@@ -29,7 +32,7 @@ export default function App() {
 
     // Dispatch the updates
     dispatch(updateActionList({ [firstKey]: updatedActions, x: listIndex }));
-    dispatch(updateOrderList({ [firstActionKey]: updatedActions, x: listIndex }));
+    dispatch(updateOrderList({ [firstActionKey]: updatedActions, x: listIndex,givenindex:t }));
   }
 
   
@@ -41,7 +44,7 @@ function Drag_out_ofcomponent(result, tempArray, entriesKey, actiontype, updates
   
   // Dispatch updates to the reducers
   dispatch(updatesinglelist({ [entriesKey]: updatedActions, x: listIndex }));
-  dispatch(UpdateActionsfordrag({ [actiontype]: updatedActions, x: listIndex }));
+  dispatch(UpdateActionsfordrag({ [actiontype]: updatedActions, x: listIndex ,givenindex:result.source.index}));
   
   return;
 }
@@ -105,7 +108,7 @@ function Drag_out_ofcomponent(result, tempArray, entriesKey, actiontype, updates
         }
         updatedActions.splice(destinationIndex, 0, newAction);
         dispatch(updatemultipleaction({ Entriesoffirst: updatedActions, x: 1 }));
-        dispatch(updatemulipleorderlist({ ActionEntrieoffirst: updatedActions, x: 1 }))
+        dispatch(updatemulipleorderlist({ ActionEntrieoffirst: updatedActions, x: 1,givenindex:destinationIndex }))
         return;
       }
       if (destionation == 'Secondmulitpleactionlist') {
@@ -124,7 +127,7 @@ function Drag_out_ofcomponent(result, tempArray, entriesKey, actiontype, updates
         }
         updatedActions.splice(destinationIndex, 0, newAction);
         dispatch(updatemultipleaction({ Entriesofsecond: updatedActions, x: 0 }));
-        dispatch(updatemulipleorderlist({ ActionEntrieofsecond: updatedActions, x: 0 }))
+        dispatch(updatemulipleorderlist({ ActionEntrieofsecond: updatedActions, x: 0,givenindex:destinationIndex }))
         console.log(updatedActions)
         return;
       }
@@ -138,13 +141,16 @@ function Drag_out_ofcomponent(result, tempArray, entriesKey, actiontype, updates
         let updatedActions = [...actions];
         updatedActions.splice(result.source.index, 1);
         dispatch(updatesinglelist({ updatedActions: updatedActions }));
-        dispatch(UpdateActionsfordrag({ actiontype: updatedActions }))
+        dispatch(UpdateActionsfordrag({ actiontype: updatedActions ,givenindex:result.source.index}))
         return;
       }
 
-      if (result.destination.droppableId === 'singleaction') {
+      if (result.destination.droppableId === 'singleaction' && result.source.droppableId =='singleaction') {
         const sourceIndex = result.source.index;
         const destinationIndex = result.destination.index;
+        let t;
+        if(sourceIndex < destinationIndex ) t = sourceIndex;
+        else t = destinationIndex;
         // handling drag and in same region/area
         let updatedActions = [...actions];
 
@@ -153,7 +159,7 @@ function Drag_out_ofcomponent(result, tempArray, entriesKey, actiontype, updates
         updatedActions.splice(destinationIndex, 0, movedElement);
 
         dispatch(updatesinglelist({ updatedActions }));
-        dispatch(UpdateActionsfordrag({ actiontype: updatedActions }))
+        dispatch(UpdateActionsfordrag({ actiontype: updatedActions ,givenindex:t}))
 
         return;
       }
@@ -164,6 +170,8 @@ function Drag_out_ofcomponent(result, tempArray, entriesKey, actiontype, updates
     if (!result.destination) return;
     const destinationIndex = result.destination.index;
     const sourceIndex = result.source.index;
+    let t ;
+   
     if (result.destination.droppableId === 'sidebar' && result.source.droppableId === 'sidebar') return;
 
     if (result.destination.droppableId === 'singleaction' && result.source.droppableId === 'sidebar') {
@@ -180,8 +188,7 @@ function Drag_out_ofcomponent(result, tempArray, entriesKey, actiontype, updates
       }
       updatedActions.splice(destinationIndex, 0, newAction);
       dispatch(updatesinglelist({ updatedActions }));
-      dispatch(UpdateActionsfordrag({ actiontype: updatedActions }))
-
+      dispatch(UpdateActionsfordrag({ actiontype: updatedActions,givenindex: destinationIndex }))
     }
   }
   return (
@@ -193,7 +200,7 @@ function Drag_out_ofcomponent(result, tempArray, entriesKey, actiontype, updates
           </DragDropContext>
         </div>
         <div className="w-1/3 h-screen overflow-hidden flex flex-row bg-white border-t border-l border-gray-200 rounded-tl-xl ml-2">
-          <PreviewArea />
+          <Tempprev  />
         </div>
       </div>
     </div>

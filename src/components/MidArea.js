@@ -60,6 +60,8 @@ export default function MidArea() {
 function SingleComponent() {
   const dispatch = useDispatch();
   const actions = useSelector(state => state.Singleaction.Singleactionlist);
+  const actionsorderlist = useSelector(state=> state.orderlistsingleaction.Actionorderlist)
+  console.log(actionsorderlist,'acjdoijfadifjadsi fidfjdifjad;')
   const runtracker = useSelector((state) => state.runtracker.RunonorOff)
   console.log('run tracker ', runtracker)
   console.log(actions)
@@ -98,7 +100,7 @@ function SingleComponent() {
     console.log('Action Type:', actionType);
     console.log('Index:', index);
     console.log('Value:', value);
-    if (actionType === 'move_x' || actionType === 'move_y' || actionType === 'rotate_clockwise' || actionType === 'rotate_anticlockwise') {
+    if (actionType === 'move_x' || actionType === 'move_y' || actionType === 'rotate_clockwise' || actionType === 'rotate_anticlockwise' || actionType ==='repeat') {
       // Dispatch an action to update move_x or move_y
       dispatch(updateAction({ index, actionType, newValue: value }));
       return;

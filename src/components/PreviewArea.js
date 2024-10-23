@@ -9,9 +9,6 @@ import { updateRunOnOrOff } from "../Redux/ReduxmidArea/Previewarea/globalruntra
 import { updateConnectivity } from "../Redux/ReduxmidArea/Previewarea/Singleactiosconnectivity";
 import { updatexory } from "../Redux/ReduxmidArea/Previewarea/toshowxory";
 
-
-
-
 export default function PreviewArea() {
   const checkstate = useSelector((state) => state.checkmultiplecancreate.isMultipleEnabled);
   const firstspirit = useSelector((state) => state.Characteractionslist.spiritone);
@@ -24,6 +21,7 @@ export default function PreviewArea() {
   const spriteTwoActionList = useSelector((state) => state.Mulitpleactionorderlist.ActionEntrieofsecond);
   console.log(singleAction, spriteOneActionList, spriteTwoActionList)
   // Local state to hold actions for both sprites
+
   const [spriteOneActions, setSpriteOneActions] = useState(spriteOneActionList);
   const [spriteTwoActions, setSpriteTwoActions] = useState(spriteTwoActionList);
   const [singleSpriteAction, setSingleSpriteAction] = useState(singleAction);
@@ -40,7 +38,6 @@ export default function PreviewArea() {
     setSpriteTwoActions(spriteTwoActionList);
   }, [spriteTwoActionList]);
 
-  // console.log('sindldakdfjout sid e', singleSpriteAction, singleAction)
 
   const l = useSelector((state) => state.singleconnectivity.x);
   const m = useSelector((state) => state.singleconnectivity.y);
@@ -52,6 +49,8 @@ export default function PreviewArea() {
   const controls0 = useAnimation(); // Separate controls for spirit 0
   const controls1 = useAnimation(); // Separate controls for spirit 1
   const dispatch = useDispatch();
+
+  // let fx = 
 
   useEffect(() => {
     if (showAlert) {
@@ -87,19 +86,19 @@ export default function PreviewArea() {
     }
   };
 
-  useEffect(() => {
-    // Only start the interval if checkstate is true
-    if (checkstate) {
-      const interval = setInterval(() => {
-        checkCollisionDuringAnimation();
-      }, 50); // Adjust the interval as needed
+  // useEffect(() => {
+  //   // Only start the interval if checkstate is true
+  //   if (checkstate) {
+  //     const interval = setInterval(() => {
+  //       checkCollisionDuringAnimation();
+  //     }, 50); // Adjust the interval as needed
 
-      // Cleanup interval when component unmounts or when checkstate changes
-      return () => clearInterval(interval);
-    }
-    // Cleanup immediately if checkstate is false (don't start the interval)
-    return () => { };
-  }, [checkstate, currentPosition0, currentPosition1, spriteOneActions, spriteTwoActions]);
+  //     // Cleanup interval when component unmounts or when checkstate changes
+  //     return () => clearInterval(interval);
+  //   }
+  //   // Cleanup immediately if checkstate is false (don't start the interval)
+  //   return () => { };
+  // }, [checkstate, currentPosition0, currentPosition1, spriteOneActions, spriteTwoActions]);
 
 
   const detectCollision = (spriteOnePos, spriteTwoPos) => {
@@ -136,6 +135,9 @@ export default function PreviewArea() {
       height: rect.height,
     };
   };
+  
+  let spriteOnePosition = { x: currentPosition0.x, y: currentPosition0.y };
+  let spriteTwoPosition = { x: currentPosition1.x, y: currentPosition1.y };
 
   const onDragHandler = (event, info, id) => {
     console.log('funxiton runing ')
@@ -147,17 +149,19 @@ export default function PreviewArea() {
     x = x - left;
     y = y - top;
 
+
     const clampedX = clamp(x, 0, width);
     const clampedY = clamp(y, 0, height);
 
-    if (elementId === 'spirit0') {
-      setCurrentPosition0((prev) => ({ ...prev, x: clampedX, y: clampedY }));
+    // Update local position variables during drag
+    if (elementId === 'sprite0') {
+      spriteOnePosition = { x: clampedX, y: clampedY };
     } else {
-      setCurrentPosition1((prev) => ({ ...prev, x: clampedX, y: clampedY }));
+      spriteTwoPosition = { x: clampedX, y: clampedY };
     }
 
     // Check for collisions during the drag
-    if (detectCollision(currentPosition0, currentPosition1)) {
+    if (detectCollision(spriteOnePosition, spriteTwoPosition)) {
       const temp = spriteOneActions;
       console.log('collison happen ', temp, spriteTwoActionList)
       setSpriteOneActions(spriteTwoActions);
@@ -165,6 +169,7 @@ export default function PreviewArea() {
       console.log('Collision detected, swapping actions!');
     }
   };
+
   const onDragStopHandler = (event, info, id) => {
     const elementId = id;
     let { x, y } = info.point;
@@ -392,6 +397,7 @@ export default function PreviewArea() {
   });
 
   // Update drag constraints based on the spirit's dimensions
+  // const spiritRef = useRef(null)
   useEffect(() => {
     const updateConstraints = () => {
       const spiritWidth = spiritRef.current ? spiritRef.current.offsetWidth : 0;
@@ -410,12 +416,13 @@ export default function PreviewArea() {
     return () => window.removeEventListener("resize", updateConstraints);
   }, []);
   const reff = useRef(null);
+
   //showalertforcolosion
   return (
     <div className="flex-none h-full p-2">
       <div className="">
-      {showalertforcolosion ? <Alert severity="warning" >Collision has occured .</Alert>
-        : null}
+        {showalertforcolosion ? <Alert severity="warning" >Collision has occured .</Alert>
+          : null}
       </div>
       <div className="flex justify-between gap-10 px-2 text-xl mb-3 items-center">
         <div className="border px-1 rounded-lg py-">Preview Section</div>
